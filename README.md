@@ -12,22 +12,22 @@ If we don't have the cleaned embeddings (duplicates removed), you'll need to set
 Basically, we use the cleaned csv for the final prediction.
 
 # Details:
-## H2 Basic Data Analysis:
+## Basic Data Analysis:
 From the basic analysis, it was clear that the dataset was balanced, no missing values. However, there were duplicates based on the movie name and synopsis (discussed it later).
-## H2 Feature selection:
+## Feature selection:
 I used only the synopsis first and later concatenated movie name and synopsis in a single text. Combining them increased the evaluation accuracy.
-## H2 Removing Duplicates:
+## Removing Duplicates:
 To remove duplicates, I used sentence-transformer to calculate the cosine similarity between movie name and synopsis with genre. Then I kept the most similar one.
-## H2 My approach: 
+## My approach: 
 - I tried out different pre-trained models for generating text embeddings.
 - Classified those embeddings using different models (used scikit learn for easy model building).
 - Finally, combined the predictions through soft voting (average of the predicted probabilities to select class) from each of those classifiers.
-### H3 The model that won the second place: 
-..* Embeddings generated using - 1. [sentence-t5-xxl](https://huggingface.co/sentence-transformers/sentence-t5-xxl), 2. [flan-t5-xxl](https://huggingface.co/google/flan-t5-xxl), 3. [flan-t5-xl](https://huggingface.co/google/flan-t5-xl).
-..* Model used - Logistic Regression with saga solver. All the other parameters remained at the default values specified by scikit-learn.
-### H3 The model that has the best private score:
+### The model that won the second place: 
+* Embeddings generated using - 1. [sentence-t5-xxl](https://huggingface.co/sentence-transformers/sentence-t5-xxl), 2. [flan-t5-xxl](https://huggingface.co/google/flan-t5-xxl), 3. [flan-t5-xl](https://huggingface.co/google/flan-t5-xl).
+* Model used - Logistic Regression with saga solver. All the other parameters remained at the default values specified by scikit-learn.
+### The model that has the best private score:
 Everything was similar to the previous model, except I also added <instructor-xl><https://huggingface.co/hkunlp/instructor-xl> for embedding generation.
-### H3 Learnings and Observations
+### Learnings and Observations
 1. Simple Logistic Regression worked better than Random Forest, MLP, Decision Tree, SVM.
 2. [MTEB leaderboard](https://huggingface.co/spaces/mteb/leaderboard) has been a huge help in choosing different models for text embedding generation.
 3. [MMLU](https://paperswithcode.com/sota/multi-task-language-understanding-on-mmlu) and [RTE](https://paperswithcode.com/sota/natural-language-inference-on-rte) benchmarks also helped a lot.
